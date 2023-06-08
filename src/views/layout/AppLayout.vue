@@ -2,8 +2,8 @@
   <div class="common-layout">
     <el-container>
       <app-aside></app-aside>
-      <el-container>
-        <el-header>Header</el-header>
+      <el-container class="header-and-main">
+        <app-header></app-header>
         <el-main>Main</el-main>
       </el-container>
     </el-container>
@@ -12,6 +12,11 @@
 
 <script setup lang="ts">
 import AppAside from './AppAside.vue'
+import AppHeader from './AppHeader.vue'
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.header-and-main {
+  flex-direction: column;
+}
+</style>
