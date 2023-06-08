@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <!-- 图标 -->
-    <el-icon>
+    <el-icon @click="isCollapse = !isCollapse">
       <i-ep-expand v-if="isCollapse"></i-ep-expand>
       <i-ep-fold v-else></i-ep-fold>
     </el-icon>
@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const isCollapse = ref(true)
+import { isCollapse } from './isCollapse'
 const circleUrl = ref('https://avatars.githubusercontent.com/u/20600867?v=4')
 </script>
 
@@ -40,6 +40,7 @@ const circleUrl = ref('https://avatars.githubusercontent.com/u/20600867?v=4')
   background-color: #eee;
   align-items: center;
   .el-icon {
+    cursor: pointer;
     margin-right: 17px;
   }
   .el-dropdown {

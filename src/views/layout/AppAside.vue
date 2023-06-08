@@ -58,8 +58,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
-const isCollapse = ref(false)
+import { isCollapse } from './isCollapse'
 </script>
 
 <style lang="scss" scoped>
