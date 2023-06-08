@@ -8,10 +8,6 @@ function handleClick() {
 </script>
 
 <template>
-  <el-icon>
-    <i-ep-setting></i-ep-setting>
-  </el-icon>
-  <el-button type="primary" @click="handleClick">primary button</el-button>
   <RouterView />
 </template>
 
