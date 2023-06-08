@@ -1,14 +1,20 @@
-<script setup lang="ts">
-import ElMessage from 'element-plus/lib/components/message/index.js'
-import { RouterView } from 'vue-router'
-// import { Setting } from '@element-plus/icons-vue'
-function handleClick() {
-  ElMessage.success('按需导入')
-}
-</script>
-
 <template>
+  <el-button @click="handleText">ccc</el-button>
   <RouterView />
 </template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import request from '@/utils/request'
+
+function handleText() {
+  request({
+    url: '/front/ad/getAdList',
+    method: 'GET'
+  }).then((res) => {
+    console.log(res)
+  })
+}
+</script>
 
 <style scoped></style>
