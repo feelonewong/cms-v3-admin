@@ -15,13 +15,20 @@ module.exports = {
   },
   // 添加格式检验工具，保证eslint保存时自动格式化代码
   rules: {
+    'vue/multi-word-component-names': [
+      '',
+      {
+        ignores: ['']
+      }
+    ],
     'prettier/prettier': [
       'error',
       {
         semi: false, // 分号
         wrapAttributes: false, // 属性不换行
         printWidth: 100, // 每行最大长度
-        endOfLine: 'auto' // 换行符
+        endOfLine: 'auto', // 换行符
+        'vue/name-property-casing': 'off'
       }
     ]
   }
