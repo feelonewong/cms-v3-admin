@@ -26,7 +26,7 @@ import type { FormRules, FormInstance } from 'element-plus/lib/components/form/i
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import { reactive, ref } from 'vue'
 import {login} from '@/api/user'
-import {useRouter} from 'vue-router'
+import {useRouter, useRoute} from 'vue-router'
 import {useTokenStore} from '@/stores/token'
 const ruleForm = reactive({
   phone: '18201288771',
@@ -34,6 +34,7 @@ const ruleForm = reactive({
 })
 const useToken = useTokenStore()
 const router = useRouter()
+const route = useRoute()
 const submitLoading = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
@@ -63,7 +64,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
           ElMessage.success('登录成功')
           useToken.saveToken(data.content)
           setTimeout(() => {
-            router.push('/')
+            router.push((route.query.redirect as string ) || '/')
           }, 500);
         }
       })
