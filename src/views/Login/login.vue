@@ -15,7 +15,7 @@
         <el-input v-model="ruleForm.password" type="password"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit(ruleFormRef)">登录</el-button>
+        <el-button :loading="submitLoading" type="primary" @click="onSubmit(ruleFormRef)">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -26,10 +26,15 @@ import type { FormRules, FormInstance } from 'element-plus/lib/components/form/i
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import { reactive, ref } from 'vue'
 import {login} from '@/api/user'
+import {useRouter} from 'vue-router'
+import {useTokenStore} from '@/stores/token'
 const ruleForm = reactive({
   phone: '18201288771',
   password: '111111'
 })
+const useToken = useTokenStore()
+const router = useRouter()
+const submitLoading = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const rules = reactive<FormRules>({
   phone: [
@@ -50,16 +55,20 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         phone: ruleForm.phone,
         password: ruleForm.password
       }
+      submitLoading.value = true
       login(params).then(res => {
-        console.log(res)
+        submitLoading.value = false
         const {data} = res
         if(data.success){
           ElMessage.success('登录成功')
-          localStorage.setItem('token',data.content)
+          useToken.saveToken(data.content)
+          setTimeout(() => {
+            router.push('/')
+          }, 500);
         }
       })
-      ElMessage.success('submit successful')
     } else {
+      submitLoading.value = false
       ElMessage.error('submit successful')
       console.log('error submit!', fields)
     }
@@ -71,6 +80,8 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 .login {
   background-color: #eee;
   height: 100vh;
+  background-image: url(https://plus.unsplash.com/premium_photo-1671210388369-bdd351c5e221?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
