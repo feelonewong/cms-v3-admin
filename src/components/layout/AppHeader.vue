@@ -13,15 +13,15 @@
     <!-- 头像 -->
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar :size="30" :src="circleUrl" />
+        <el-avatar :size="30" :src="userInfo.circleUrl" />
         <el-icon class="el-icon--right">
           <i-ep-arrow-down />
         </el-icon>
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
-          <el-dropdown-item divided>Action 5</el-dropdown-item>
+          <el-dropdown-item>{{ userInfo.userName }}</el-dropdown-item>
+          <el-dropdown-item divided>退出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -29,9 +29,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { isCollapse } from './isCollapse'
-const circleUrl = ref('https://avatars.githubusercontent.com/u/20600867?v=4')
+import {getInfo} from '@/api/user'
+onMounted(() => {
+  getUserInfo()
+});
+const userInfo = reactive({
+  circleUrl: "",
+  userName: ""
+})
+const getUserInfo = () =>{
+  getInfo().then(res => {
+    const { userName, portrait } = res.data.content
+    userInfo.circleUrl = portrait
+    userInfo.userName = userName
+  })
+}
 </script>
 
 <style lang="scss" scoped>

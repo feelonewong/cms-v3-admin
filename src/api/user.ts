@@ -20,3 +20,22 @@ export const login = (loginInfo: LoginInfo) => {
     data: `phone=${loginInfo.phone}&password=${loginInfo.password}`
   })
 }
+
+type UserInfo = {
+  success: string
+  state: number
+  message: string
+  content: {
+    isUpdatedPassword: boolean
+    portrait: string
+    userName: string
+  }
+}
+
+// 登录接口
+export const getInfo = () => {
+  return request<UserInfo>({
+    url: '/front/user/getInfo',
+    method: 'GET'
+  })
+}
