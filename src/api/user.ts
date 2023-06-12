@@ -1,5 +1,6 @@
 import request from '@/utils/request'
-
+import { useTokenStore } from '@/stores/token'
+// const store = useTokenStore()
 type LoginInfo = {
   phone: string
   code?: string
@@ -41,9 +42,20 @@ export const getInfo = () => {
 }
 
 // 退出接口
-export const logout = () =>{
+export const logout = () => {
   return request({
     url: '/front/user/logout',
     method: 'POST'
+  })
+}
+
+// 刷新token接口
+export const refreshToken = () => {
+  return request({
+    method: 'POST',
+    url: '/front/user/refresh_token',
+    params: {
+      refreshtoken: useTokenStore().token.refresh_token
+    }
   })
 }
