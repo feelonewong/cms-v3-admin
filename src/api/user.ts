@@ -39,3 +39,11 @@ export const getInfo = () => {
     method: 'GET'
   })
 }
+
+// 退出接口
+export const logout = () =>{
+  return request({
+    url: '/front/user/logout',
+    method: 'POST'
+  })
+}
