@@ -50,12 +50,19 @@ export const logout = () => {
 }
 
 // 刷新token接口
+let promiseRT: Promise<any>
+let refreshing = false
 export const refreshToken = () => {
-  return request({
+  if(refreshing) return promiseRT
+  refreshing = true
+  promiseRT = request({
     method: 'POST',
     url: '/front/user/refresh_token',
     params: {
       refreshtoken: useTokenStore().token.refresh_token
     }
+  }).finally(() => {
+    refreshing = false
   })
+  return promiseRT
 }
