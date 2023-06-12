@@ -1,18 +1,25 @@
 import request from '@/utils/request'
 import { useTokenStore } from '@/stores/token'
-// const store = useTokenStore()
+
 type LoginInfo = {
   phone: string
   code?: string
   password: string
 }
 
-type LoginResult = {
-  success: boolean
+type CommonReturn<T> = {
+  success: string
   state: number
   message: string
-  content: string
+  content: T
 }
+type LoginResult = CommonReturn<string>
+type UserInfo = CommonReturn<{
+  isUpdatedPassword: boolean
+  portrait: string
+  userName: string
+}>
+
 // 登录接口
 export const login = (loginInfo: LoginInfo) => {
   return request<LoginResult>({
@@ -20,17 +27,6 @@ export const login = (loginInfo: LoginInfo) => {
     method: 'POST',
     data: `phone=${loginInfo.phone}&password=${loginInfo.password}`
   })
-}
-
-type UserInfo = {
-  success: string
-  state: number
-  message: string
-  content: {
-    isUpdatedPassword: boolean
-    portrait: string
-    userName: string
-  }
 }
 
 // 登录接口
@@ -53,7 +49,7 @@ export const logout = () => {
 let promiseRT: Promise<any>
 let refreshing = false
 export const refreshToken = () => {
-  if(refreshing) return promiseRT
+  if (refreshing) return promiseRT
   refreshing = true
   promiseRT = request({
     method: 'POST',
