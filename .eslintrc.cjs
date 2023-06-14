@@ -18,7 +18,7 @@ module.exports = {
     'vue/multi-word-component-names': [
       '',
       {
-        ignores: ['']
+
       }
     ],
     'prettier/prettier': [
