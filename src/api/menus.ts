@@ -30,3 +30,18 @@ export const getAllMenus = () => {
     method: 'GET'
   })
 }
+
+type MenuInfo = Pick<MenuItem, 'id' | 'parentId' | 'href' | 'icon' | 'description' | 'shown'> & {
+  id?: number
+  name: string
+  orderNum: number
+}
+
+// 新增菜单
+export const updatedMenus = (menuInfo: MenuInfo) => {
+  return request({
+    url: '/boss/menu/saveOrUpdate',
+    method: 'POST',
+    data: menuInfo
+  })
+}

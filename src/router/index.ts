@@ -25,7 +25,12 @@ const router = createRouter({
         {
           path: 'menus',
           name: 'menus',
-          component: () => import('@/views/menu/MenuIndex.vue')
+          component: () => import('@/views/menu/MenuIndex.vue'),
+        },
+        {
+          path: '/menus/update',
+          name: 'menu-update',
+          component: () => import('@/views/menu/updateMenu.vue')
         },
         {
           path: 'about',
@@ -33,7 +38,7 @@ const router = createRouter({
           component: () => import('@/views/AboutView.vue')
         },
         {
-          path: '/:pathMatch(.*)*',
+          path: '/:pathMatch(.*)',
           name: 'not-found',
           component: () => import('@/views/ErrorPage.vue')
         }

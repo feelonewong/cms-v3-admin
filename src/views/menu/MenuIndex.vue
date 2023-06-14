@@ -1,8 +1,8 @@
 <template>
   <div>
     <div slot="header" class="clearfix">
-      <el-button class="add-btn">添加菜单</el-button>
-      <el-table :data="tableData" style="width: 100%" border :height="750">
+      <el-button class="add-btn" @click="handleMenu">添加菜单</el-button>
+      <el-table :data="allMenus" style="width: 100%" border :height="750">
         <el-table-column v-for="(item, index) in tableConfig" :align="item.align" :width="item.width" :key="index"
           :type="item.type" :label="item.label" :prop="item.prop"></el-table-column>
         <el-table-column label="操作" align="center">
@@ -17,14 +17,15 @@
 </template>
   
 <script setup lang='ts'>
-import { getAllMenus } from '@/api/menus'
 import type { MenuItem } from '@/api/menus'
-import { ElMessage } from 'element-plus/lib/components/index.js';
+import { useRouter } from "vue-router"
 import { ref, onMounted } from 'vue';
-onMounted(() => {
-  getMenus()
+import { useMenu } from '@/composables/useMenu'
+onMounted(async () => {
+  await getMenus()
 })
-const tableData = ref([] as MenuItem[])
+const { getMenus, allMenus } = useMenu();
+const router = useRouter()
 const tableConfig = ref([{
   label: '编号',
   prop: '',
@@ -49,16 +50,10 @@ const tableConfig = ref([{
   prop: 'orderNum'
 }
 ])
-const getMenus = async () => {
-  const { data } = await getAllMenus()
-  if (data.code === "000000") {
-    tableData.value = data.data
-  } else {
-    ElMessage.error("获取菜单信息失败")
-    throw new Error("获取菜单信息失败")
-  }
-}
 
+const handleMenu = () => {
+  router.push({ name: 'menu-update' })
+}
 </script>
   
 <style lang="scss" scoped>
