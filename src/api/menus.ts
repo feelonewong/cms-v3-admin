@@ -22,6 +22,7 @@ export type MenuItem = {
   shown: boolean
   updatedBy: string
   updatedTime: string
+  name: string
 }
 // 获取菜单列表
 export const getAllMenus = () => {
@@ -37,8 +38,8 @@ type MenuInfo = Pick<MenuItem, 'id' | 'parentId' | 'href' | 'icon' | 'descriptio
   orderNum: number
 }
 
-// 新增菜单
-export const updatedMenus = (menuInfo: MenuInfo) => {
+// 更新菜单
+export const updatedMenus = (menuInfo: Object) => {
   return request({
     url: '/boss/menu/saveOrUpdate',
     method: 'POST',
