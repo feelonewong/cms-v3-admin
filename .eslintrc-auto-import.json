@@ -60,6 +60,7 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "ElMess": true
+    "ElMess": true,
+    "ElMe": true
   }
 }

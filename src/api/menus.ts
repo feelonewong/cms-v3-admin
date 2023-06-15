@@ -46,3 +46,11 @@ export const updatedMenus = (menuInfo: Object) => {
     data: menuInfo
   })
 }
+
+// 删除菜单
+export const deleteMenus = (id: string | number) => {
+  return request({
+    url: `/boss/menu/${id}`,
+    method: 'DELETE',
+  })
+}

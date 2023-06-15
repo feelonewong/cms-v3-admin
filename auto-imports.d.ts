@@ -5,6 +5,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElMe: typeof import('element-plus/es')['ElMe']
   const ElMess: typeof import('element-plus/es')['ElMess']
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const computed: typeof import('vue')['computed']

@@ -8,7 +8,7 @@
         <el-table-column label="操作" align="center">
           <template #default="scope">
             <el-button type="primary" size="mini">编辑</el-button>
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -18,9 +18,13 @@
   
 <script setup lang='ts'>
 import type { MenuItem } from '@/api/menus'
+import { deleteMenus } from "@/api/menus"
 import { useRouter } from "vue-router"
 import { ref, onMounted } from 'vue';
 import { useMenu } from '@/composables/useMenu'
+import { ElMessageBox } from 'element-plus/lib/components/index.js';
+import ElMessage from 'element-plus/lib/components/message/index.js'
+
 onMounted(async () => {
   await getMenus()
 })
@@ -53,6 +57,26 @@ const tableConfig = ref([{
 
 const handleMenu = () => {
   router.push({ name: 'menu-update' })
+}
+
+const handleDelete = async (id: number | string) => {
+  await ElMessageBox.confirm("你确定要删除菜单吗?",
+    "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(async () => {
+    await deleteMenus(id).then(res => {
+      if (res.data.code === '000000') {
+        ElMessage.success('删除成功')
+      } else {
+        ElMessage.error(res.data.mesg)
+
+      }
+    })
+  }).catch(() => {
+    ElMessage.info("取消删除")
+  })
 }
 </script>
   
