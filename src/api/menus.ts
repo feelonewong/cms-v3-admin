@@ -51,6 +51,17 @@ export const updatedMenus = (menuInfo: Object) => {
 export const deleteMenus = (id: string | number) => {
   return request({
     url: `/boss/menu/${id}`,
-    method: 'DELETE',
+    method: 'DELETE'
+  })
+}
+
+// 获取菜单详情
+export const getMenuDetById = (id: string | number) => {
+  return request({
+    url: `/boss/menu/getEditMenuInfo`,
+    method: 'GET',
+    params: {
+      id: id
+    }
   })
 }

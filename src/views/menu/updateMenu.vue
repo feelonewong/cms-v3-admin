@@ -20,8 +20,8 @@
     </el-form-item>
     <el-form-item label="是否显示">
       <el-radio-group v-model="form.shown">
-        <el-radio label="true">是</el-radio>
-        <el-radio label="false">否</el-radio>
+        <el-radio :label="true">是</el-radio>
+        <el-radio :label="false">否</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="排序">
@@ -36,14 +36,42 @@
   
 <script setup lang='ts'>
 import { useMenu } from '@/composables/useMenu'
-import { updatedMenus } from "@/api/menus"
+import { updatedMenus, getMenuDetById } from "@/api/menus"
 import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus/lib/components/index.js';
-import { useRouter } from "vue-router"
+import { useRouter, useRoute } from "vue-router"
+const route = useRoute()
+
 onMounted(async () => {
   await getMenus()
-  console.log(topMenus)
+
+  // 如果有id就是编辑，没有id就是新增
+  const { id } = route.params
+  if (id) {
+    const params = id as number | string
+    getMenuDetById(params).then(res => {
+      const { data } = res.data
+      if (res.data.code === '000000') {
+        const { menuInfo } = data
+        form.name = menuInfo.name
+        form.href = menuInfo.href
+        form.parentId = menuInfo.parentId
+        form.shown = menuInfo.shown
+        form.icon = menuInfo.icon
+        form.orderNum = menuInfo.orderNum
+        form.description = menuInfo.description
+      } else {
+        ElMessage.error('获取菜单详情失败')
+        throw new Error('获取菜单详情失败')
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  } else {
+    console.log('新增')
+  }
 })
+
 const { getMenus, topMenus } = useMenu();
 const router = useRouter()
 // do not use same name with ref
