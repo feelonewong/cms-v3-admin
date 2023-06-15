@@ -25,7 +25,7 @@ const router = createRouter({
         {
           path: 'menus',
           name: 'menus',
-          component: () => import('@/views/menu/MenuIndex.vue'),
+          component: () => import('@/views/menu/MenuIndex.vue')
         },
         {
           path: '/menus/update',
@@ -36,6 +36,11 @@ const router = createRouter({
           path: `/menus/:id/edit`,
           name: 'menu-edit',
           component: () => import('@/views/menu/updateMenu.vue')
+        },
+        {
+          path: '/resources',
+          name: 'resource-category',
+          component: () => import('@/views/resourceCategory/resourceCategoryIndex.vue')
         },
         {
           path: 'about',

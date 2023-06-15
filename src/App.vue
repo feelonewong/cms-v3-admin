@@ -7,7 +7,6 @@ import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 // import request from '@/utils/request'
 onMounted(() => {
-  console.log('App mounted!')
   // request({
   //   url: '/ad/getAdList',
   //   method: 'GET'
