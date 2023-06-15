@@ -71,7 +71,7 @@ const handleDelete = async (id: number | string) => {
         ElMessage.success('删除成功')
       } else {
         ElMessage.error(res.data.mesg)
-
+        throw new Error("删除失败")
       }
     })
   }).catch(() => {
