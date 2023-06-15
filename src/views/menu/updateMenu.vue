@@ -28,7 +28,7 @@
       <el-input v-model="form.orderNum" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">立即创建</el-button>
+      <el-button type="primary" @click="onSubmit">{{ msgText }}</el-button>
       <el-button>取消</el-button>
     </el-form-item>
   </el-form>
@@ -37,7 +37,7 @@
 <script setup lang='ts'>
 import { useMenu } from '@/composables/useMenu'
 import { updatedMenus, getMenuDetById } from "@/api/menus"
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus/lib/components/index.js';
 import { useRouter, useRoute } from "vue-router"
 const route = useRoute()
@@ -68,10 +68,12 @@ onMounted(async () => {
       console.log(err)
     })
   } else {
-    console.log('新增')
   }
 })
-
+const msgText = computed(() => {
+  const { id } = route.params
+  return id ? '立即编辑' : '立即新增'
+})
 const { getMenus, topMenus } = useMenu();
 const router = useRouter()
 // do not use same name with ref
@@ -86,7 +88,9 @@ const form = reactive({
 })
 
 const onSubmit = () => {
+  const { id } = route.params
   const params = {
+    id: id ? id : '',
     name: form.name,
     href: form.href,
     parentId: form.parentId,
@@ -96,14 +100,12 @@ const onSubmit = () => {
     description: form.description
   }
   updatedMenus(params).then(res => {
-    console.log(res)
     if (res.data.code === '000000') {
-      ElMessage.success('添加菜单成功')
-
+      ElMessage.success(`${msgText}成功`)
       router.push('/menus')
     } else {
-      ElMessage.error('添加菜单失败')
-      throw new Error('添加菜单失败')
+      ElMessage.error(`${msgText}失败`)
+      throw new Error(`${msgText}失败`)
     }
   })
 }
