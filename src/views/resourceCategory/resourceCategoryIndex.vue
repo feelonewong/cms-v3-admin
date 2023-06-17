@@ -12,7 +12,7 @@
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button type="primary" @click="handleEditCategory(scope.row.id)">编辑</el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -22,10 +22,11 @@
   
 <script setup lang='ts'>
 import { onMounted, reactive, ref } from 'vue'
-import { getAllResource } from '@/api/resource-category'
+import { getAllResource, deleteResourceCategory } from '@/api/resource-category'
 import type { ResourceCategoryItem } from '@/api/resource-category'
 import ElMessage from 'element-plus/lib/components/message/index.js';
 import DialogResource from './components/resource-update.vue'
+import { ElMessageBox } from 'element-plus/lib/components/index.js';
 import dayjs from 'dayjs'
 const tableConfig = ref([{
   label: '编号',
@@ -69,6 +70,26 @@ const getResourceList = () => {
   }).catch(err => {
     console.log(err)
     tableLoading.value = false
+  })
+}
+const handleDelete = async (id: number | string) => {
+  await ElMessageBox.confirm("你确定要删除吗?",
+    "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(async () => {
+    await deleteResourceCategory(id).then(res => {
+      if (res.data.code === '000000') {
+        ElMessage.success('删除成功')
+        getResourceList()
+      } else {
+        ElMessage.error(res.data.mesg)
+        throw new Error("删除失败")
+      }
+    })
+  }).catch(() => {
+    ElMessage.info("取消删除")
   })
 }
 // 获取dialog组件引用

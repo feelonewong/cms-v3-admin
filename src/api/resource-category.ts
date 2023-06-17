@@ -41,3 +41,11 @@ export const saveOrUpdateResource = (data: ResourceCategoryInfo) => {
     data: data
   })
 }
+
+// 删除
+export const deleteResourceCategory = (id: number | string) => {
+  return request({
+    url: `/boss/resource/category/${id}`,
+    method: 'DELETE',
+  })
+}
