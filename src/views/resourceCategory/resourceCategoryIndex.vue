@@ -17,7 +17,7 @@
       </el-table-column>
     </el-table>
   </el-card>
-  <DialogResource ref="dialogResource"></DialogResource>
+  <DialogResource ref="dialogResource" @updateSuccess="dialogUpdateHandle"></DialogResource>
 </template>
   
 <script setup lang='ts'>
@@ -72,12 +72,17 @@ const getResourceList = () => {
   })
 }
 // 获取dialog组件引用
-const dialogResource = ref<InstanceType<typeof DialogResource> | null>(null) 
-const handleCreateCategory = () =>{
+const dialogResource = ref<InstanceType<typeof DialogResource> | null>(null)
+const handleCreateCategory = () => {
   dialogResource.value?.initShow(0)
 }
 const handleEditCategory = (id: number) => {
   dialogResource.value?.initShow(id)
+}
+const dialogUpdateHandle = (flag: boolean) => {
+  if (flag) {
+    getResourceList()
+  }
 }
 </script>
   

@@ -1,21 +1,18 @@
 <template>
   <el-dialog v-model="dialogFormVisible" :title="`${msgText}表单`">
-    <el-form :model="form">
-      <el-form-item label="Promotion name" :label-width="formLabelWidth">
+    <el-form :model="form" ref="categoryRef">
+      <el-form-item label="类别名称" :label-width="formLabelWidth" prop="name">
         <el-input v-model="form.name" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="Zones" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
+      <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
+        <el-input v-model="form.sort" autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">
-          Confirm
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleSubmit">
+          提交
         </el-button>
       </span>
     </template>
@@ -24,22 +21,38 @@
   
 <script setup lang='ts'>
 import { ref, reactive } from 'vue'
+import { saveOrUpdateResource } from '@/api/resource-category'
+import { ElMessage, type FormInstance } from 'element-plus/lib/components/index.js';
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const form = reactive({
   name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  sort: 0
 })
+const categoryRef = ref<FormInstance>()
+const emit = defineEmits(['updateSuccess'])
 const msgText = ref('')
 const initShow = (id: number) => {
-  id? msgText.value = '编辑' : msgText.value = '新增'
+  categoryRef.value?.resetFields()
+  id ? msgText.value = '编辑' : msgText.value = '新增'
   dialogFormVisible.value = true
+}
+const handleSubmit = () => {
+  let params = {
+    name: form.name,
+    sort: form.sort
+  }
+  saveOrUpdateResource(params).then(res => {
+    const { data } = res
+    if (data.code === '000000') {
+      ElMessage.success(`${msgText.value}资源类型成功`)
+      emit('updateSuccess', true)
+      dialogFormVisible.value = false
+    } else {
+      ElMessage.error(`${msgText.value}资源类型失败`)
+      throw new Error(`${msgText.value}资源类型失败`)
+    }
+  })
 }
 defineExpose({ initShow })
 </script>

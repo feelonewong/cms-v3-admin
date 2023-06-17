@@ -26,3 +26,18 @@ export const getAllResource = () => {
     method: 'GET'
   })
 }
+
+type ResourceCategoryInfo = {
+  name: string
+  sort: number
+  id?: number
+}
+
+// 保存或者更新资源类别
+export const saveOrUpdateResource = (data: ResourceCategoryInfo) => {
+  return request({
+    url: '/boss/resource/category/saveOrderUpdate',
+    method: 'POST',
+    data: data
+  })
+}
