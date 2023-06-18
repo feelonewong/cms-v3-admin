@@ -38,9 +38,14 @@ const router = createRouter({
           component: () => import('@/views/menu/updateMenu.vue')
         },
         {
-          path: '/resources',
+          path: '/resources-category',
           name: 'resource-category',
           component: () => import('@/views/resourceCategory/resourceCategoryIndex.vue')
+        },
+        {
+          path: '/resources',
+          name: 'resources',
+          component: () => import('@/views/resources/resourceIndex.vue')
         },
         {
           path: 'about',

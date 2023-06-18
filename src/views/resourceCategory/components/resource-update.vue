@@ -20,7 +20,7 @@
 </template>
   
 <script setup lang='ts'>
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { saveOrUpdateResource } from '@/api/resource-category'
 import { ElMessage, type FormInstance } from 'element-plus/lib/components/index.js';
 const dialogFormVisible = ref(false)
@@ -29,16 +29,30 @@ const form = reactive({
   name: '',
   sort: 0
 })
+const props = defineProps({
+  categoryInfo: Object
+})
 const categoryRef = ref<FormInstance>()
 const emit = defineEmits(['updateSuccess'])
 const msgText = ref('')
 const initShow = (id: number) => {
-  categoryRef.value?.resetFields()
-  id ? msgText.value = '编辑' : msgText.value = '新增'
+  nextTick(() => {
+    if (!id) {
+      // 新建
+      categoryRef.value?.resetFields()
+      msgText.value = '新增'
+    } else {
+      // 编辑
+      msgText.value = '编辑'
+      form.name = props.categoryInfo?.name
+      form.sort = props.categoryInfo?.sort
+    }
+  })
   dialogFormVisible.value = true
 }
 const handleSubmit = () => {
   let params = {
+    id: props.categoryInfo?.id,
     name: form.name,
     sort: form.sort
   }

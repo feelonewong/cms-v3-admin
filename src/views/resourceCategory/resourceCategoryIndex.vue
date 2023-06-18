@@ -11,13 +11,13 @@
         :width="item.width" :prop="item.prop" :formatter="item.formatter" :type="item.type"></el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
-          <el-button type="primary" @click="handleEditCategory(scope.row.id)">编辑</el-button>
+          <el-button type="primary" @click="handleEditCategory(scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
   </el-card>
-  <DialogResource ref="dialogResource" @updateSuccess="dialogUpdateHandle"></DialogResource>
+  <DialogResource ref="dialogResource" @updateSuccess="dialogUpdateHandle" :categoryInfo="categoryInfo"></DialogResource>
 </template>
   
 <script setup lang='ts'>
@@ -94,11 +94,29 @@ const handleDelete = async (id: number | string) => {
 }
 // 获取dialog组件引用
 const dialogResource = ref<InstanceType<typeof DialogResource> | null>(null)
+type categoryInfo = {
+  name: string
+  sort: number
+  id?: number
+}
+let categoryInfo = ref<categoryInfo>({
+  name: '',
+  sort: 0
+})
 const handleCreateCategory = () => {
+  categoryInfo.value = {
+    name: '',
+    sort: 0
+  }
   dialogResource.value?.initShow(0)
 }
-const handleEditCategory = (id: number) => {
-  dialogResource.value?.initShow(id)
+const handleEditCategory = (row: any) => {
+  categoryInfo.value = {
+    name: row.name,
+    sort: row.sort,
+    id: row.id
+  }
+  dialogResource.value?.initShow(row.id)
 }
 const dialogUpdateHandle = (flag: boolean) => {
   if (flag) {

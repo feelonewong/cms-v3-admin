@@ -13,9 +13,18 @@
           <span>权限管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/menus"><IEpSetting></IEpSetting>菜单列表</el-menu-item>
-          <el-menu-item index="/resources"><IEpSetting></IEpSetting>资源列表</el-menu-item>
-          <el-menu-item index="/roles"><IEpSetting></IEpSetting>角色列表</el-menu-item>
+          <el-menu-item index="/menus">
+            <IEpSetting></IEpSetting>菜单列表
+          </el-menu-item>
+          <el-menu-item index="/resources-category">
+            <IEpSetting></IEpSetting>资源类别列表
+          </el-menu-item>
+          <el-menu-item index="/resources">
+            <IEpSetting></IEpSetting>资源列表
+          </el-menu-item>
+          <el-menu-item index="/roles">
+            <IEpSetting></IEpSetting>角色列表
+          </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="2">
@@ -26,7 +35,9 @@
           <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/users"><IEpSetting></IEpSetting>角色列表</el-menu-item>
+          <el-menu-item index="/users">
+            <IEpSetting></IEpSetting>角色列表
+          </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="3">
@@ -37,7 +48,9 @@
           <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/course"><IEpSetting></IEpSetting>课程管理</el-menu-item>
+          <el-menu-item index="/course">
+            <IEpSetting></IEpSetting>课程管理
+          </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="4">
@@ -67,17 +80,21 @@ import { isCollapse } from './isCollapse'
   height: 100vh;
   width: auto;
 }
+
 .el-menu {
   background-color: #eee;
   width: 200px;
   border-right: none;
+
   &.el-menu--collapse {
     width: 64px;
+
     & h1 {
       display: none;
     }
   }
 }
+
 .logo {
   display: flex;
   justify-content: center;
@@ -85,9 +102,9 @@ import { isCollapse } from './isCollapse'
   text-decoration: none;
   color: black;
   height: 60px;
+
   img {
     width: 32px;
     height: 32px;
   }
-}
-</style>
+}</style>
