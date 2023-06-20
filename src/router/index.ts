@@ -2,8 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 // @ts-ignore
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { useTokenStore } from '@/stores/token'
-// @ts-ignore
-// @ts-ignore
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -24,41 +22,49 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
+          // @ts-ignore
           component: () => import('@/views/IndexView.vue')
         },
         {
           path: 'menus',
           name: 'menus',
+          // @ts-ignore
           component: () => import('@/views/menu/MenuIndex.vue')
         },
         {
           path: '/menus/update',
           name: 'menu-update',
+          // @ts-ignore
           component: () => import('@/views/menu/updateMenu.vue')
         },
         {
           path: `/menus/:id/edit`,
           name: 'menu-edit',
+          // @ts-ignore
           component: () => import('@/views/menu/updateMenu.vue')
         },
         {
           path: '/resources-category',
           name: 'resource-category',
+          // @ts-ignore
           component: () => import('@/views/resourceCategory/resourceCategoryIndex.vue')
         },
         {
           path: '/resources',
           name: 'resources',
+          // @ts-ignore
           component: () => import('@/views/resources/resourceIndex.vue')
         },
         {
           path: 'about',
           name: 'about',
+          // @ts-ignore
           component: () => import('@/views/AboutView.vue')
         },
         {
           path: '/:pathMatch(.*)',
           name: 'not-found',
+          // @ts-ignore
           component: () => import('@/views/ErrorPage.vue')
         }
       ]

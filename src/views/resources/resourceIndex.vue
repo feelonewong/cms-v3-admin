@@ -40,7 +40,7 @@
     </el-form>
     <el-row>
       <el-col>
-        <el-button type="primary">添加资源</el-button>
+        <el-button type="primary" @click="handleAddResource">添加资源</el-button>
         <el-button type="primary" @click="handleJumpCategory">资源类别</el-button>
       </el-col>
     </el-row>
@@ -70,8 +70,12 @@
       :total="total"
       @current-change="handleCurrentChange"
     >
-      <template v-slot:layout>123{{ total }}</template>
     </el-pagination>
+    <ResourceType
+      ref="dialogResourceType"
+      @updateSuccess="dialogUpdateHandle"
+      :resourceTypeInfo="resourceTypeInfo"
+    ></ResourceType>
   </el-card>
 </template>
 
@@ -79,12 +83,12 @@
 import { onMounted, reactive, ref } from 'vue'
 import { getResourceList } from '@/api/resources.ts'
 import { getAllResource } from '@/api/resource-category'
-
 import type { Condition } from '@/api/resources.ts'
 import { useRouter } from 'vue-router'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import dayjs from 'dayjs'
 import { FormInstance } from 'element-plus/lib/components'
+import ResourceType from './components/update-form.vue'
 onMounted(() => {
   getResourceType() // 获取资源分类List
   queryList()
@@ -165,14 +169,32 @@ const handleCurrentChange = (value) => {
   queryParams.current = value
   queryList()
 }
-const handleEditCategory = (row) => {
-  console.log(row)
-}
+
 const handleDelete = (row) => {
   console.log(row)
 }
 const handleJumpCategory = (row) => {
   router.push({ name: 'resource-category' })
+}
+const resourceTypeInfo = ref({})
+const dialogUpdateHandle = () => {
+  queryList()
+}
+const dialogResourceType = ref<InstanceType<typeof ResourceType> | null>(null)
+const handleAddResource = () => {
+  resourceTypeInfo.value = {}
+  dialogResourceType.value?.initShow()
+}
+
+const handleEditCategory = (row) => {
+  resourceTypeInfo.value = {
+    id: row.id,
+    name: row.name,
+    url: row.url,
+    description: row.description,
+    categoryId: row.categoryId
+  }
+  dialogResourceType.value?.initShow(1)
 }
 </script>
 

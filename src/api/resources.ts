@@ -19,3 +19,11 @@ export const getResourceList = (condition: Condition) => {
     data: condition
   })
 }
+
+export const updateResourceType = (params: Object) => {
+  return request({
+    url: '/boss/resource/getResourcePages',
+    method: 'POST',
+    data: params
+  })
+}
