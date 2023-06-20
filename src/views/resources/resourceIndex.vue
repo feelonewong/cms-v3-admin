@@ -81,13 +81,15 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { getResourceList } from '@/api/resources.ts'
+import { getResourceList, deleteResourceType } from '@/api/resources.ts'
 import { getAllResource } from '@/api/resource-category'
 import type { Condition } from '@/api/resources.ts'
 import { useRouter } from 'vue-router'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import dayjs from 'dayjs'
 import { FormInstance } from 'element-plus/lib/components'
+import { ElMessageBox } from 'element-plus/lib/components/index.js'
+
 import ResourceType from './components/update-form.vue'
 onMounted(() => {
   getResourceType() // 获取资源分类List
@@ -170,8 +172,26 @@ const handleCurrentChange = (value) => {
   queryList()
 }
 
-const handleDelete = (row) => {
-  console.log(row)
+const handleDelete = async (row) => {
+  await ElMessageBox.confirm('你确定要删除吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(async () => {
+      await deleteResourceType(row.id).then((res) => {
+        if (res.data.code === '000000') {
+          ElMessage.success('删除成功')
+          queryList()
+        } else {
+          ElMessage.error(res.data.mesg)
+          throw new Error('删除失败')
+        }
+      })
+    })
+    .catch(() => {
+      ElMessage.info('取消删除')
+    })
 }
 const handleJumpCategory = (row) => {
   router.push({ name: 'resource-category' })

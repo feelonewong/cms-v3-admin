@@ -22,8 +22,14 @@ export const getResourceList = (condition: Condition) => {
 
 export const updateResourceType = (params: Object) => {
   return request({
-    url: '/boss/resource/getResourcePages',
+    url: '/boss/resource/saveOrUpdate',
     method: 'POST',
     data: params
+  })
+}
+export const deleteResourceType = (id: number | string) => {
+  return request({
+    url: `/boss/resource/${id}`,
+    method: 'DELETE'
   })
 }
