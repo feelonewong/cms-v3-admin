@@ -15,12 +15,12 @@ module.exports = {
   },
   // 添加格式检验工具，保证eslint保存时自动格式化代码
   rules: {
-    'vue/multi-word-component-names': [
-      '',
-      {
-
-      }
-    ],
+    // 'vue/multi-word-component-names': [
+    //   '',
+    //   {
+    //
+    //   }
+    // ],
     'prettier/prettier': [
       'error',
       {

@@ -36,20 +36,19 @@ import { useTokenStore } from '@/stores/token'
 import { useRouter } from 'vue-router'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import { ElMessageBox } from 'element-plus/lib/components/index.js'
-import { useRoute } from "vue-router"
+import { useRoute } from 'vue-router'
 onMounted(() => {
   getUserInfo()
-});
+})
 const route = useRoute()
-console.log(route, 'route')
 const useToken = useTokenStore()
 const router = useRouter()
 const userInfo = reactive({
-  circleUrl: "",
-  userName: ""
+  circleUrl: '',
+  userName: ''
 })
 const getUserInfo = () => {
-  getInfo().then(res => {
+  getInfo().then((res) => {
     const { userName, portrait } = res.data.content
     userInfo.circleUrl = portrait
     userInfo.userName = userName
@@ -62,9 +61,9 @@ const handleLogout = async () => {
     type: 'warning'
   }).catch(() => {
     ElMessageBox.confirm('取消退出')
-    return new Promise(() => { })
+    return new Promise(() => {})
   })
-  logout().then(res => {
+  logout().then((res) => {
     if (res.data.success) {
       ElMessage.success('退出成功')
       useToken.saveToken('')
@@ -93,4 +92,5 @@ const handleLogout = async () => {
       align-items: center;
     }
   }
-}</style>
+}
+</style>
