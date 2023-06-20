@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// @ts-ignore
 import AppLayout from '@/components/layout/AppLayout.vue'
 import { useTokenStore } from '@/stores/token'
+// @ts-ignore
 // @ts-ignore
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +10,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      // @ts-ignore
       component: () => import('@/views/Login/login.vue')
     },
     {
