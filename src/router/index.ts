@@ -56,6 +56,12 @@ const router = createRouter({
           component: () => import('@/views/resources/resourceIndex.vue')
         },
         {
+          path: '/roles',
+          name: 'roles',
+          // @ts-ignore
+          component: () => import('@/views/roles/RolesIndex.vue')
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
