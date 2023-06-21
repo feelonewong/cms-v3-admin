@@ -1,8 +1,28 @@
 <template>
   <el-card class="box-card">
     <template #header>
+      <h3 class="title">资源类别列表</h3>
       <div class="card-header">
-        <h3>资源类别列表</h3>
+        <el-form :model="queryParams" ref="formRef" label-width="70px" :label-position="'right'">
+          <el-row type="flex" gutter="10">
+            <el-col :span="12">
+              <el-form-item label="输入搜索" prop="name">
+                <el-input
+                  style="width: 420px"
+                  v-model="queryParams.name"
+                  placeholder="请输入角色名称"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-row type="flex" justify="start">
+                <el-button type="info" @click="handleReset">重置</el-button>
+                <el-button type="primary" @click="handleSearch">搜索</el-button>
+              </el-row>
+            </el-col>
+          </el-row>
+          <el-button type="primary" @click="handleAddRole">添加角色</el-button>
+        </el-form>
       </div>
     </template>
     <el-table :data="tableData" height="580" border style="width: 100%" v-loading="tableLoading">
@@ -33,6 +53,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { getRolePages } from '@/api/roles'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import dayjs from 'dayjs'
+import { FormInstance } from 'element-plus/lib/components'
 onMounted(() => {
   queryList() // 加载列表
 })
@@ -89,6 +110,16 @@ const queryList = () => {
       throw new Error('获取角色列表失败')
     })
 }
+const handleSearch = () => {
+  queryParams.current = 1
+  queryList()
+}
+const formRef = ref<FormInstance>()
+const handleReset = () => {
+  formRef.value?.resetFields()
+}
+// 添加角色
+const handleAddRole = () => {}
 // 分配菜单
 const handleAllocMenu = (row) => {}
 // 分配资源
@@ -119,5 +150,9 @@ const handleDelete = (row) => {}
 
 .box-card {
   width: auto;
+}
+
+.title {
+  margin-bottom: 20px;
 }
 </style>
