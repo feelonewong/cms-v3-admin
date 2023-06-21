@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <template #header>
-      <h3 class="title">资源类别列表</h3>
+      <h3 class="title">角色列表</h3>
       <div class="card-header">
         <el-form :model="queryParams" ref="formRef" label-width="70px" :label-position="'right'">
           <el-row type="flex" gutter="10">
@@ -40,12 +40,21 @@
         <template #default="scope">
           <el-button type="primary" @click="handleAllocMenu(scope.row)">分配菜单</el-button>
           <el-button type="primary" @click="handleAllocResource(scope.row.id)">分配资源</el-button>
-          <el-button type="danger" @click="handleEdit(scope.row.id)">编辑</el-button>
+          <el-button type="danger" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      v-model:current-page="currentPage"
+      :page-size="queryParams.size"
+      layout="total, prev, pager, next"
+      :total="total"
+      @current-change="handleCurrentChange"
+    >
+    </el-pagination>
   </el-card>
+  <update-role ref="dialogUpdateRole" :roleInfo="roleInfo" @update="dialogUpdate"></update-role>
 </template>
 
 <script lang="ts" setup>
@@ -54,6 +63,7 @@ import { getRolePages } from '@/api/roles'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import dayjs from 'dayjs'
 import { FormInstance } from 'element-plus/lib/components'
+import UpdateRole from './components/update-role.vue'
 onMounted(() => {
   queryList() // 加载列表
 })
@@ -114,20 +124,42 @@ const handleSearch = () => {
   queryParams.current = 1
   queryList()
 }
+const currentPage = ref(1)
 const formRef = ref<FormInstance>()
 const handleReset = () => {
   formRef.value?.resetFields()
 }
+let roleInfo = ref({})
+const dialogUpdateRole = ref<InstanceType<typeof UpdateRole> | null>(null)
 // 添加角色
-const handleAddRole = () => {}
+const handleAddRole = (row) => {
+  roleInfo.value = {}
+  dialogUpdateRole.value?.initShow()
+}
 // 分配菜单
 const handleAllocMenu = (row) => {}
 // 分配资源
 const handleAllocResource = (row) => {}
 // 编辑
-const handleEdit = (row) => {}
+const handleEdit = (row) => {
+  console.log(row)
+  roleInfo.value = {
+    id: row.id,
+    code: row.code,
+    name: row.name,
+    description: row.description
+  }
+  dialogUpdateRole.value?.initShow(1)
+}
 // 删除
 const handleDelete = (row) => {}
+const handleCurrentChange = (value) => {
+  queryParams.current = value
+  queryList()
+}
+const dialogUpdate = () => {
+  queryList()
+}
 </script>
 
 <style lang="scss" scoped>
