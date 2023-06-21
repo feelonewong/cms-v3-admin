@@ -16,9 +16,11 @@
         :formatter="item.formatter"
         :type="item.type"
       ></el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="420">
         <template #default="scope">
-          <el-button type="primary" @click="handleEditCategory(scope.row)">编辑</el-button>
+          <el-button type="primary" @click="handleAllocMenu(scope.row)">分配菜单</el-button>
+          <el-button type="primary" @click="handleAllocResource(scope.row.id)">分配资源</el-button>
+          <el-button type="danger" @click="handleEdit(scope.row.id)">编辑</el-button>
           <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -30,6 +32,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { getRolePages } from '@/api/roles'
 import ElMessage from 'element-plus/lib/components/message/index.js'
+import dayjs from 'dayjs'
 onMounted(() => {
   queryList() // 加载列表
 })
@@ -39,7 +42,32 @@ const queryParams = reactive({
   current: 1
 })
 let total = ref(0)
-const tableConfig = reactive([])
+const tableConfig = reactive([
+  {
+    type: 'index',
+    label: '序号',
+    width: 80,
+    align: 'center'
+  },
+  {
+    label: '角色名称',
+    prop: 'name',
+    align: 'center'
+  },
+  {
+    label: '角色描述',
+    prop: 'description',
+    align: 'center'
+  },
+  {
+    label: '添加时间',
+    prop: 'createTime',
+    align: 'center',
+    formatter: (row: any) => {
+      return dayjs(row.createTime).format('YYYY-MM-DD')
+    }
+  }
+])
 let tableLoading = ref(false)
 let tableData = reactive([])
 const queryList = () => {
@@ -61,6 +89,14 @@ const queryList = () => {
       throw new Error('获取角色列表失败')
     })
 }
+// 分配菜单
+const handleAllocMenu = (row) => {}
+// 分配资源
+const handleAllocResource = (row) => {}
+// 编辑
+const handleEdit = (row) => {}
+// 删除
+const handleDelete = (row) => {}
 </script>
 
 <style lang="scss" scoped>
