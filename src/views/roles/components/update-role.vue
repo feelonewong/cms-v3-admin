@@ -29,6 +29,8 @@
 import { ref, reactive, nextTick, onMounted } from 'vue'
 import { ElMessage, type FormInstance } from 'element-plus/lib/components/index.js'
 import { updateResourceType } from '@/api/resources'
+import { saveOrUpdate } from '@/api/roles'
+
 onMounted(() => {})
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
@@ -65,7 +67,7 @@ const handleSubmit = () => {
     id: props.roleInfo?.id,
     ...form
   }
-  updateResourceType(params).then((res) => {
+  saveOrUpdate(params).then((res) => {
     const { data } = res
     if (data.code === '000000') {
       ElMessage.success(`${msgText.value}角色成功`)

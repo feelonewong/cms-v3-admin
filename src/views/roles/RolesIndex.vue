@@ -54,7 +54,11 @@
     >
     </el-pagination>
   </el-card>
-  <update-role ref="dialogUpdateRole" :roleInfo="roleInfo" @update="dialogUpdate"></update-role>
+  <update-role
+    ref="dialogUpdateRole"
+    :roleInfo="roleInfo"
+    @updateSuccess="dialogUpdate"
+  ></update-role>
 </template>
 
 <script lang="ts" setup>

@@ -24,3 +24,17 @@ export const getRolePages = (data: queryCondition) => {
     data
   })
 }
+
+type RoleInfo = {
+  code: string
+  id?: number
+  description: string
+  name: string
+}
+export const saveOrUpdate = (roleInfo: RoleInfo) => {
+  return request({
+    url: '/boss/role/saveOrUpdate',
+    method: 'POST',
+    data: roleInfo
+  })
+}
