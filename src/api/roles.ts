@@ -38,3 +38,10 @@ export const saveOrUpdate = (roleInfo: RoleInfo) => {
     data: roleInfo
   })
 }
+
+export const deleteRole = (id: number) => {
+  return request({
+    url: `/boss/role/${id}`,
+    method: 'DELETE'
+  })
+}

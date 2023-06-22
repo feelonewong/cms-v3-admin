@@ -68,6 +68,9 @@ import ElMessage from 'element-plus/lib/components/message/index.js'
 import dayjs from 'dayjs'
 import { FormInstance } from 'element-plus/lib/components'
 import UpdateRole from './components/update-role.vue'
+import { ElMessageBox } from 'element-plus/lib/components/index.js'
+
+import { deleteRole } from '@/api/roles'
 onMounted(() => {
   queryList() // 加载列表
 })
@@ -156,7 +159,27 @@ const handleEdit = (row) => {
   dialogUpdateRole.value?.initShow(1)
 }
 // 删除
-const handleDelete = (row) => {}
+const handleDelete = async (row) => {
+  await ElMessageBox.confirm('你确定要删除吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(async () => {
+      await deleteRole(row.id).then((res) => {
+        if (res.data.code === '000000') {
+          ElMessage.success('删除成功')
+          queryList()
+        } else {
+          ElMessage.error(res.data.mesg)
+          throw new Error('删除失败')
+        }
+      })
+    })
+    .catch(() => {
+      ElMessage.info('取消删除')
+    })
+}
 const handleCurrentChange = (value) => {
   queryParams.current = value
   queryList()
