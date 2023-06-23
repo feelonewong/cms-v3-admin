@@ -77,3 +77,14 @@ export const allocRoleList = (id: string) => {
     params: { roleId: id }
   })
 }
+
+export const updateTreeList = (id: string, menuIdList: number[]) => {
+  return request({
+    url: `/boss/menu/allocateRoleMenus`,
+    method: 'POST',
+    data: {
+      roleId: id,
+      menuIdList: menuIdList
+    }
+  })
+}

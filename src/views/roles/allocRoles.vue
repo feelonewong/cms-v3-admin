@@ -6,9 +6,12 @@
       :default-checked-keys="defaultCheckedKeys"
       :data="menuList"
       node-key="id"
+      ref="menuTree"
       default-expand-all
       show-checkbox
     />
+    <el-button @click="handleUpdate">更新</el-button>
+    <el-button @click="handleClear">清空</el-button>
   </div>
 </template>
 
@@ -17,6 +20,11 @@ import { onMounted, reactive, ref } from 'vue'
 import { allocRoleList } from '@/api/roles'
 import type { RoleMenuItem } from '@/api/roles'
 import ElMessage from 'element-plus/lib/components/message/index.js'
+import type { Instance } from 'element-plus'
+import { ElTree } from 'element-plus'
+import { updateTreeList } from '@/api/roles'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
   roleId: {
     type: String,
@@ -62,6 +70,33 @@ const getCheckedId = (arr: RoleMenuItem[]) => {
       defaultCheckedKeys.value.push(item.id)
     }
   })
+}
+const menuTree = ref<Instance<typeof ElTree> | null>(null)
+const handleUpdate = () => {
+  const checkedKeys = menuTree.value?.getCheckedKeys()
+  const params = {
+    roleId: props.roleId,
+    menuIds: checkedKeys
+  }
+  updateTreeList(params)
+    .then((res) => {
+      const result = res.data
+      if (result.code === '000000') {
+        ElMessage.success('更新菜单资源成功')
+        //   保存成功跳转角色页面
+        router.push({ name: 'roles' })
+      } else {
+        ElMessage.error('更新菜单资源失败')
+        throw new Error('更新菜单资源失败')
+      }
+    })
+    .catch((err) => {
+      ElMessage.error('更新菜单资源失败')
+      console.log(err)
+    })
+}
+const handleClear = () => {
+  menuTree.value?.setCheckedKeys([])
 }
 </script>
 
