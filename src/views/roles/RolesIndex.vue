@@ -39,7 +39,7 @@
       <el-table-column label="操作" align="center" width="420">
         <template #default="scope">
           <el-button type="primary" @click="handleAllocMenu(scope.row)">分配菜单</el-button>
-          <el-button type="primary" @click="handleAllocResource(scope.row.id)">分配资源</el-button>
+          <el-button type="primary" @click="handleAllocResource(scope.row)">分配资源</el-button>
           <el-button type="danger" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
@@ -69,7 +69,9 @@ import dayjs from 'dayjs'
 import { FormInstance } from 'element-plus/lib/components'
 import UpdateRole from './components/update-role.vue'
 import { ElMessageBox } from 'element-plus/lib/components/index.js'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 import { deleteRole } from '@/api/roles'
 onMounted(() => {
   queryList() // 加载列表
@@ -144,9 +146,18 @@ const handleAddRole = (row) => {
   dialogUpdateRole.value?.initShow()
 }
 // 分配菜单
-const handleAllocMenu = (row) => {}
+const handleAllocMenu = (row: any) => {
+  router.push({
+    name: 'alloc-roles',
+    params: {
+      roleId: row.id
+    }
+  })
+}
 // 分配资源
-const handleAllocResource = (row) => {}
+const handleAllocResource = (row) => {
+  console.log(row)
+}
 // 编辑
 const handleEdit = (row) => {
   console.log(row)

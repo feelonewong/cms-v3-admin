@@ -62,6 +62,13 @@ const router = createRouter({
           component: () => import('@/views/roles/RolesIndex.vue')
         },
         {
+          path: '/roles/:roleId/alloc-menus',
+          name: 'alloc-roles',
+          // @ts-ignore
+          component: () => import('@/views/roles/allocRoles.vue'),
+          props: true
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
