@@ -45,3 +45,35 @@ export const deleteRole = (id: number) => {
     method: 'DELETE'
   })
 }
+
+export type RoleMenuItem = {
+  createdBy: string
+  createdTime: string
+  description: string
+  id: number
+  href: string
+  icon: string
+  level: number
+  name: string
+  operatorId: number
+  orderNum: number
+  parentId: number
+  selected: boolean
+  shown: boolean
+  subMenus: Array<RoleMenuItem> | null
+  updatedBy: string
+}
+
+type Common<T> = {
+  code: string
+  data: T
+  mesg: string
+  time: string
+}
+export const allocRoleList = (id: string) => {
+  return request<Common<RoleMenuItem[]>>({
+    url: `/boss/menu/getRoleMenus`,
+    method: 'GET',
+    params: { roleId: id }
+  })
+}
