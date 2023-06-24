@@ -1,6 +1,10 @@
 <template>
   <div>
-    <alloc-category></alloc-category>
+    <alloc-category
+      v-for="(category, index) in resourceList"
+      :key="index"
+      :category="category"
+    ></alloc-category>
   </div>
 </template>
 
@@ -20,7 +24,6 @@ onMounted(() => {
 const resourceList = ref({})
 const getResource = () => {
   getRoleResources(props.roleId).then((res) => {
-    console.log(res)
     const result = res.data
     if (result.code === '000000') {
       resourceList.value = result.data

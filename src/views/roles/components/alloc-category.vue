@@ -8,16 +8,16 @@
               v-model="checkAll"
               :indeterminate="isIndeterminate"
               @change="handleCheckAllChange"
-              >Check all</el-checkbox
+              >{{ props.category.name }}</el-checkbox
             >
           </span>
         </div>
       </template>
-      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+      <el-checkbox-group v-model="checkedIds" @change="handleCheckedCitiesChange">
         <el-row type="flex" :span="24">
-          <el-col v-for="city in cities" :key="city" :span="6">
-            <el-checkbox :label="city">
-              {{ city }}
+          <el-col v-for="(item, index) in allItemIds" :key="index" :span="6">
+            <el-checkbox :label="item.id">
+              {{ item.name }}
             </el-checkbox>
           </el-col>
         </el-row>
@@ -27,21 +27,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const checkAll = ref(false)
-const isIndeterminate = ref(true)
-const checkedCities = ref(['Shanghai', 'Beijing'])
-const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen', 'NanTong']
-
-const handleCheckAllChange = (val: boolean) => {
-  checkedCities.value = val ? cities : []
+import { onMounted, ref } from 'vue'
+import type { CheckboxValueType } from 'element-plus'
+const props = defineProps({
+  category: Object
+})
+onMounted(() => {
+  allItemIds.value = props.category.resourceList
+  checkedIds.value = props.category.resourceList
+    .filter((item) => item.selected)
+    .map((item) => item.id)
+  isIndeterminate.value =
+    checkedIds.value.length > 0 && checkedIds.value.length < allItemIds.value.length
+})
+const checkAll = ref(props.category.selected)
+const checkedIds = ref<any>([])
+const allItemIds = ref([])
+const isIndeterminate = ref(false)
+const handleCheckAllChange = (checkedItems: CheckboxValueType) => {
+  let tempAllItemIds = []
+  tempAllItemIds = allItemIds.value.map((item) => item.id)
+  checkedIds.value = checkedItems ? tempAllItemIds : []
   isIndeterminate.value = false
 }
 const handleCheckedCitiesChange = (value: string[]) => {
   const checkedCount = value.length
-  checkAll.value = checkedCount === cities.length
-  isIndeterminate.value = checkedCount > 0 && checkedCount < cities.length
+  checkAll.value = checkedCount === allItemIds.value.length
+  isIndeterminate.value = checkedCount > 0 && checkedCount < allItemIds.value.length
 }
 </script>
 
@@ -62,5 +74,7 @@ const handleCheckedCitiesChange = (value: string[]) => {
 
 .box-card {
   width: auto;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 </style>
