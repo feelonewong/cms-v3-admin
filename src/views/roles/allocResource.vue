@@ -1,10 +1,13 @@
 <template>
-  <div>分配资源</div>
+  <div>
+    <alloc-category></alloc-category>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { getRoleResources } from '@/api/roles'
+import AllocCategory from '@/views/roles/components/alloc-category.vue'
 const props = defineProps({
   roleId: {
     type: String,
