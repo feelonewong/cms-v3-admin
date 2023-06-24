@@ -88,3 +88,22 @@ export const updateTreeList = (id: string, menuIdList: number[]) => {
     }
   })
 }
+type RoleCategoryItem = {
+  createBy: string
+  createdTime: string
+  id: number
+  name: string
+  operatorId: number | null
+  resourceList: null | any
+  selected: boolean
+  sort: number
+  updatedBy: string
+  updatedTime: string
+}
+export const getRoleResources = (id: string) => {
+  return request<Common<RoleCategoryItem[]>>({
+    url: `/boss/resource/getRoleResources`,
+    method: 'GET',
+    params: { roleId: id }
+  })
+}
