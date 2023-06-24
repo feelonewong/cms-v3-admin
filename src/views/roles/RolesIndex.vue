@@ -156,11 +156,15 @@ const handleAllocMenu = (row: any) => {
 }
 // 分配资源
 const handleAllocResource = (row) => {
-  console.log(row)
+  router.push({
+    name: 'alloc-resource',
+    params: {
+      roleId: row.id
+    }
+  })
 }
 // 编辑
 const handleEdit = (row) => {
-  console.log(row)
   roleInfo.value = {
     id: row.id,
     code: row.code,

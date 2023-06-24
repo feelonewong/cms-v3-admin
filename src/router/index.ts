@@ -69,6 +69,13 @@ const router = createRouter({
           props: true
         },
         {
+          path: '/roles/:roleId/alloc-resource',
+          name: 'alloc-resource',
+          // @ts-ignore
+          component: () => import('@/views/roles/allocResource.vue'),
+          props: true
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
