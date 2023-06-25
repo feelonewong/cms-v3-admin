@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import type { CheckboxValueType } from 'element-plus'
 const props = defineProps({
   category: Object
@@ -44,6 +44,11 @@ const checkAll = ref(props.category.selected)
 const checkedIds = ref<any>([])
 const allItemIds = ref([])
 const isIndeterminate = ref(false)
+const emit = defineEmits<{
+  (e: 'postCheckedIdsRef', payload: Ref<number[]>): void
+}>()
+
+emit('postCheckedIdsRef', checkedIds)
 const handleCheckAllChange = (checkedItems: CheckboxValueType) => {
   let tempAllItemIds = []
   tempAllItemIds = allItemIds.value.map((item) => item.id)

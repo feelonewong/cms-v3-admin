@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>分配菜单</h2>
+    <h2>分配菜单-</h2>
     <el-tree
       :props="treeProps"
       :default-checked-keys="defaultCheckedKeys"
