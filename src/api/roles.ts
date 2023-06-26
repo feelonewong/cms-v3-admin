@@ -107,3 +107,14 @@ export const getRoleResources = (id: string) => {
     params: { roleId: id }
   })
 }
+
+export const allocRoleResources = (id: number | string, resourceIdList: []) => {
+  return request({
+    url: `/boss/resource/allocateRoleResources`,
+    method: 'POST',
+    data: {
+      roleId: id,
+      resourceIdList: resourceIdList
+    }
+  })
+}

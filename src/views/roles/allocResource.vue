@@ -15,15 +15,18 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { getRoleResources } from '@/api/roles'
+import { getRoleResources, allocRoleResources } from '@/api/roles'
 import AllocCategory from '@/views/roles/components/alloc-category.vue'
 import { Ref } from 'vue/dist/vue'
+import ElMessage from 'element-plus/lib/components/message/index.js'
+import { useRouter } from 'vue-router'
 const props = defineProps({
   roleId: {
     type: String,
     required: true
   }
 })
+const router = useRouter()
 onMounted(() => {
   getResource()
 })
@@ -40,10 +43,23 @@ const handleUpdate = () => {
   const allCheckedIds = collectionCheckIds.reduce((tmp: number[], item) => {
     return [...tmp, ...item.value]
   }, [])
-  console.log(allCheckedIds)
+  const id = props.roleId
+  const checkedIds = allCheckedIds
+  allocRoleResources(id, checkedIds).then((res) => {
+    const result = res.data
+    if (result.code === '000000') {
+      ElMessage.success('更新成功')
+      router.push({ name: 'roles' })
+    } else {
+      ElMessage.error('更新角色失败')
+      throw new Error('更新角色失败')
+    }
+  })
 }
 const handleClear = () => {
-  console.log(resourceList.value)
+  collectionCheckIds.forEach((item: any) => {
+    item.value = []
+  })
 }
 const collectionCheckIds = [] as Ref<number[]>
 const handleCheckedIdsRef = (playload: Ref<number[]>) => {

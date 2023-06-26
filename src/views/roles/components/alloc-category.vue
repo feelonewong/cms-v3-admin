@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue'
+import { onMounted, Ref, ref, watchEffect } from 'vue'
 import type { CheckboxValueType } from 'element-plus'
 const props = defineProps({
   category: Object
@@ -60,6 +60,12 @@ const handleCheckedCitiesChange = (value: string[]) => {
   checkAll.value = checkedCount === allItemIds.value.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < allItemIds.value.length
 }
+watchEffect(() => {
+  if (checkedIds.value.length === 0) {
+    checkAll.value = false
+    isIndeterminate.value = false
+  }
+})
 </script>
 
 <style lang="scss" scoped>
