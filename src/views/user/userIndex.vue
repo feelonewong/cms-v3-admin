@@ -82,6 +82,7 @@
     >
     </el-pagination>
   </el-card>
+  <DlgAlloceRole ref="dlgAllocRoles" :allocRole="allocRole"></DlgAlloceRole>
 </template>
 
 <script lang="ts" setup>
@@ -89,7 +90,7 @@ import { getUserList } from '@/api/user'
 import type { QueryCondition } from '@/api/user'
 import { onMounted, reactive, ref, watch } from 'vue'
 import ElMessage from 'element-plus/lib/components/message/index.js'
-
+import DlgAlloceRole from './components/AllocRole.vue'
 onMounted(() => {
   getPage()
 })
@@ -149,7 +150,6 @@ const handleSearch = () => {
   queryCondition.value.currentPage = 1
   getPage()
 }
-const handleReset = () => {}
 const getPage = () => {
   tableLoading.value = true
   getUserList(queryCondition.value)
@@ -166,8 +166,10 @@ const getPage = () => {
       tableLoading.value = false
     })
 }
+const dlgAllocRoles = ref<InstanceType<typeof DlgAlloceRole> | null>(null)
+const allocRole = ref<any>({})
 const handleAllocRole = (row: any) => {
-  console.log(row)
+  dlgAllocRoles.value?.initShow(row)
 }
 const handleCurrentChange = (pageNumber: number) => {
   queryCondition.value.currentPage = pageNumber
