@@ -76,6 +76,12 @@ const router = createRouter({
           props: true
         },
         {
+          path: '/user',
+          name: 'user',
+          // @ts-ignore
+          component: () => import('@/views/user/userIndex.vue')
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore

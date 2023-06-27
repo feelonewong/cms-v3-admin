@@ -62,3 +62,21 @@ export const refreshToken = () => {
   })
   return promiseRT
 }
+
+export type QueryCondition = {
+  currentPage: number
+  pageSize: number
+  phone?: string
+  userId?: number
+  startCreateTime?: string
+  endCreateTime?: string
+  time?: string[]
+}
+// 获取用户列表信息
+export const getUserList = (queryCondition: QueryCondition) => {
+  return request({
+    url: '/boss/user/getUserPages',
+    method: 'POST',
+    data: queryCondition
+  })
+}

@@ -13,18 +13,12 @@
           <span>权限管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/menus">
-            <IEpSetting></IEpSetting>菜单列表
-          </el-menu-item>
+          <el-menu-item index="/menus"> <IEpSetting></IEpSetting>菜单列表 </el-menu-item>
           <el-menu-item index="/resources-category">
             <IEpSetting></IEpSetting>资源类别列表
           </el-menu-item>
-          <el-menu-item index="/resources">
-            <IEpSetting></IEpSetting>资源列表
-          </el-menu-item>
-          <el-menu-item index="/roles">
-            <IEpSetting></IEpSetting>角色列表
-          </el-menu-item>
+          <el-menu-item index="/resources"> <IEpSetting></IEpSetting>资源列表 </el-menu-item>
+          <el-menu-item index="/roles"> <IEpSetting></IEpSetting>角色列表 </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="2">
@@ -35,9 +29,7 @@
           <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/users">
-            <IEpSetting></IEpSetting>角色列表
-          </el-menu-item>
+          <el-menu-item index="/user"> <IEpSetting></IEpSetting>用户管理 </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="3">
@@ -45,12 +37,10 @@
           <el-icon>
             <IEpSetting></IEpSetting>
           </el-icon>
-          <span>用户管理</span>
+          <span>用户管理2</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/course">
-            <IEpSetting></IEpSetting>课程管理
-          </el-menu-item>
+          <el-menu-item index="/course"> <IEpSetting></IEpSetting>课程管理 </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="4">
@@ -107,4 +97,5 @@ import { isCollapse } from './isCollapse'
     width: 32px;
     height: 32px;
   }
-}</style>
+}
+</style>
