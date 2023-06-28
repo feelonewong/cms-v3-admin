@@ -37,7 +37,7 @@
           <el-icon>
             <IEpSetting></IEpSetting>
           </el-icon>
-          <span>用户管理2</span>
+          <span>课程管理</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/course"> <IEpSetting></IEpSetting>课程管理 </el-menu-item>

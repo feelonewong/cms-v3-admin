@@ -82,6 +82,12 @@ const router = createRouter({
           component: () => import('@/views/user/userIndex.vue')
         },
         {
+          path: '/course',
+          name: 'course',
+          // @ts-ignore
+          component: () => import('@/views/course/courseIndex.vue')
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
