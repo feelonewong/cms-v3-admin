@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ref, reactive, nextTick, onMounted } from 'vue'
 import { ElMessage, type FormInstance } from 'element-plus/lib/components/index.js'
-import { getRoleByUserId } from '@/api/user'
+import { getRoleByUserId, allocRoleSave } from '@/api/user'
 onMounted(() => {})
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
@@ -61,7 +61,16 @@ const getUserRoleList = (id: string | number) => {
     })
 }
 const handleSubmit = () => {
-  let params = {}
+  allocRoleSave(props.allocRole?.userId, form.hasRoleIds).then((res) => {
+    const result = res.data
+    if (result.code === '000000') {
+      ElMessage.success('分配角色成功')
+      dialogFormVisible.value = false
+      emit('updateSuccess', true)
+    } else {
+      ElMessage.error(result.mesg)
+    }
+  })
 }
 const resourceType = ref([])
 

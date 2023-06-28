@@ -91,3 +91,14 @@ export const getRoleByUserId = (userId: string | number) => {
     }
   })
 }
+
+export const allocRoleSave = (userId: string | number, roleIdList: number | string[]) => {
+  return request({
+    url: '/boss/role/allocateUserRoles',
+    method: 'POST',
+    data: {
+      userId: userId,
+      roleIdList: roleIdList
+    }
+  })
+}

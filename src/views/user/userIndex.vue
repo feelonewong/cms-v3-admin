@@ -82,7 +82,11 @@
     >
     </el-pagination>
   </el-card>
-  <DlgAlloceRole ref="dlgAllocRoles" :allocRole="allocRoleData"></DlgAlloceRole>
+  <DlgAlloceRole
+    ref="dlgAllocRoles"
+    :allocRole="allocRoleData"
+    @updateSuccess="handleUpdateSuccess"
+  ></DlgAlloceRole>
 </template>
 
 <script lang="ts" setup>
@@ -177,6 +181,9 @@ const handleAllocRole = (row: any) => {
 const handleCurrentChange = (pageNumber: number) => {
   queryCondition.value.currentPage = pageNumber
   getPage()
+}
+const handleUpdateSuccess = (flag: boolean) => {
+  flag && getPage()
 }
 </script>
 
