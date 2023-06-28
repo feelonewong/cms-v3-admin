@@ -80,3 +80,14 @@ export const getUserList = (queryCondition: QueryCondition) => {
     data: queryCondition
   })
 }
+
+// 根据id获取角色列表
+export const getRoleByUserId = (userId: string | number) => {
+  return request({
+    url: '/boss/role/getRolesWithUserPermission',
+    method: 'GET',
+    params: {
+      userId: userId
+    }
+  })
+}

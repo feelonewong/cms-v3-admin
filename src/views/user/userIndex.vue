@@ -82,7 +82,7 @@
     >
     </el-pagination>
   </el-card>
-  <DlgAlloceRole ref="dlgAllocRoles" :allocRole="allocRole"></DlgAlloceRole>
+  <DlgAlloceRole ref="dlgAllocRoles" :allocRole="allocRoleData"></DlgAlloceRole>
 </template>
 
 <script lang="ts" setup>
@@ -167,8 +167,11 @@ const getPage = () => {
     })
 }
 const dlgAllocRoles = ref<InstanceType<typeof DlgAlloceRole> | null>(null)
-const allocRole = ref<any>({})
+const allocRoleData = ref({
+  userId: ''
+})
 const handleAllocRole = (row: any) => {
+  allocRoleData.value.userId = row.id
   dlgAllocRoles.value?.initShow(row)
 }
 const handleCurrentChange = (pageNumber: number) => {
