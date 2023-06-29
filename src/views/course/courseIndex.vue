@@ -11,7 +11,7 @@
             :label-position="'right'"
           >
             <el-row type="flex" gutter="10">
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item label="课程名称" prop="courseName">
                   <el-input
                     style="width: 320px"
@@ -20,7 +20,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
                 <el-form-item label="状态" prop="status">
                   <el-select v-model="queryCondition.status" class="m-2" placeholder="请选择状态">
                     <el-option label="全部" value=""></el-option>
@@ -29,7 +29,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="2">
                 <el-row type="flex" justify="start">
                   <el-button type="primary" @click="handleSearch">搜索</el-button>
                 </el-row>
@@ -85,9 +85,11 @@
 import { getQueryCourses, changeState } from '@/api/course'
 import type { QueryCondition } from '@/api/course'
 import { ref, onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 const tableLoading = ref(false)
 const tableData = ref([])
+const router = useRouter()
 const tableConfig = reactive([
   {
     label: 'ID',
@@ -146,9 +148,13 @@ const handleSearch = () => {
   queryCondition.currentPage = 1
   queryList()
 }
-const handleAddCourse = () => {}
+const handleAddCourse = () => {
+  router.push('/course/create')
+}
 const handleEdit = (row: any) => {
-  console.log(row)
+  router.push({
+    path: `/course/${row.id}/edit`
+  })
 }
 const handleContentManage = (row: any) => {
   console.log(row)

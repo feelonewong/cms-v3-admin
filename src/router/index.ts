@@ -88,6 +88,19 @@ const router = createRouter({
           component: () => import('@/views/course/courseIndex.vue')
         },
         {
+          path: '/course/create',
+          name: 'course-create',
+          // @ts-ignore
+          component: () => import('@/views/course/components/update-course.vue')
+        },
+        {
+          path: '/course/:courseId/edit',
+          name: 'course-edit',
+          // @ts-ignore
+          component: () => import('@/views/course/components/update-course.vue'),
+          props: true
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
