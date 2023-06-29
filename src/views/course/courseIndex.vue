@@ -22,11 +22,11 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="状态" prop="status">
-                  <el-input
-                    style="width: 320px"
-                    v-model="queryCondition.status"
-                    placeholder="请选择状态"
-                  />
+                  <el-select v-model="queryCondition.status" class="m-2" placeholder="请选择状态">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option label="启用" value="1"></el-option>
+                    <el-option label="弃用" value="0"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
