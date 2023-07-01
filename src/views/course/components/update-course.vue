@@ -68,10 +68,40 @@
           </el-form-item>
         </div>
         <div v-show="currentStep === 3">
-          <h1>秒杀活动</h1>
+          <el-form-item label="限时活动开关" prop="activityCourse">
+            <el-switch v-model="course.activityCourse" />
+          </el-form-item>
+          <div v-show="course.activityCourse">
+            <el-form-item label="活动时间" prop="discounts">
+              <el-date-picker
+                v-model="activitiyTime"
+                type="daterange"
+                range-separator="To"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                value-format="YYYY-MM-DD"
+                @change="handleTimeChange"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item label="活动价格" prop="amount">
+              <el-input v-model.number="course.activityCourseDTO.amount" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="库存值" prop="stock">
+              <el-input v-model.number="course.activityCourseDTO.stock" autocomplete="off" />
+            </el-form-item>
+          </div>
         </div>
         <div v-show="currentStep === 4">
-          <h1>课程详情</h1>
+          <el-form-item label="课程详情" prop="courseDescriptionMarkDown">
+            <el-input
+              v-model.number="course.courseDescriptionMarkDown"
+              autocomplete="off"
+              type="textarea"
+            />
+          </el-form-item>
+          <el-form-item label="是否上架" prop="status">
+            <el-switch v-model="course.status" :active-value="1" :inactive-value="0" />
+          </el-form-item>
         </div>
         <div class="form-bottom-btn">
           <el-button type="primary" v-show="currentStep != 0" @click="currentStep--"
@@ -100,6 +130,16 @@ const props = defineProps({
 })
 const router = useRouter()
 const currentStep = ref(0)
+const activitiyTime = ref([])
+const handleTimeChange = (val: any) => {
+  if (Array.isArray(val)) {
+    course.activityCourseDTO.beginTime = val[0] || ''
+    course.activityCourseDTO.endTime = val[1] || ''
+  } else {
+    course.activityCourseDTO.beginTime = ''
+    course.activityCourseDTO.endTime = ''
+  }
+}
 const course = reactive({
   // 基本信息
   courseName: '',
@@ -118,13 +158,26 @@ const course = reactive({
   discounts: 0,
   price: 0,
   sales: 0,
-  discountsTag: ''
+  discountsTag: '',
+  //   秒杀活动
+  activityCourse: false,
+  activityCourseDTO: {
+    beginTime: '',
+    endTime: '',
+    amount: 2,
+    stock: ''
+  },
+  courseDescriptionMarkDown: '',
+  status: 0
 })
 const goBack = () => {
   router.go(-1)
 }
 const handleSubmit = () => {
   console.log(course)
+}
+const handleChangeActivaty = (val) => {
+  console.log(val)
 }
 </script>
 
