@@ -54,7 +54,18 @@
           </el-form-item>
         </div>
         <div v-show="currentStep === 2">
-          <h1>销售信息</h1>
+          <el-form-item label="售卖价格" prop="discounts">
+            <el-input v-model.number="course.discounts" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="商品原价" prop="price">
+            <el-input v-model.number="course.price" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="销量" prop="sales">
+            <el-input v-model.number="course.sales" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="活动标签" prop="discountsTag">
+            <el-input v-model="course.discountsTag" autocomplete="off" />
+          </el-form-item>
         </div>
         <div v-show="currentStep === 3">
           <h1>秒杀活动</h1>
@@ -102,7 +113,12 @@ const course = reactive({
   previewSecondField: '',
   sortNum: 0,
   courseListImg: '',
-  courseImgUrl: ''
+  courseImgUrl: '',
+  //   销售信息
+  discounts: 0,
+  price: 0,
+  sales: 0,
+  discountsTag: ''
 })
 const goBack = () => {
   router.go(-1)
