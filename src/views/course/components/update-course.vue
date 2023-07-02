@@ -93,11 +93,7 @@
         </div>
         <div v-show="currentStep === 4">
           <el-form-item label="课程详情" prop="courseDescriptionMarkDown">
-            <el-input
-              v-model.number="course.courseDescriptionMarkDown"
-              autocomplete="off"
-              type="textarea"
-            />
+            <TextEditor v-model="course.courseDescriptionMarkDown"></TextEditor>
           </el-form-item>
           <el-form-item label="是否上架" prop="status">
             <el-switch v-model="course.status" :active-value="1" :inactive-value="0" />
@@ -124,6 +120,7 @@ import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { reactive, ref } from 'vue'
 import ImgUpload from '@/views/course/components/ImgUpload.vue'
+import TextEditor from '@/components/TextEditor/textEditor.vue'
 
 const props = defineProps({
   courseId: Number
