@@ -43,3 +43,13 @@ export const getCourseDet = (courseId: number | string) => {
     }
   })
 }
+
+export const getSectionAndLesson = (courseId: number | string) => {
+  return request({
+    url: '/boss/course/section/getSectionAndLesson',
+    method: 'GET',
+    params: {
+      courseId
+    }
+  })
+}
