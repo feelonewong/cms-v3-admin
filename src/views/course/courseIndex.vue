@@ -158,6 +158,12 @@ const handleEdit = (row: any) => {
 }
 const handleContentManage = (row: any) => {
   console.log(row)
+  router.push({
+    path: `/course/${row.id}/content`,
+    query: {
+      courseName: row.courseName
+    }
+  })
 }
 const handleCurrentChange = (value: number) => {
   queryCondition.currentPage = value

@@ -101,6 +101,13 @@ const router = createRouter({
           props: true
         },
         {
+          path: '/course/:courseId/content',
+          name: 'course-content',
+          // @ts-ignore
+          component: () => import('@/views/course/components/course-content.vue'),
+          props: true
+        },
+        {
           path: 'about',
           name: 'about',
           // @ts-ignore
