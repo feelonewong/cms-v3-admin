@@ -68,8 +68,8 @@
           </el-form-item>
         </div>
         <div v-show="currentStep === 3">
-          <el-form-item label="限时活动开关" prop="activityCourse">
-            <el-switch v-model="course.activityCourse" />
+          <el-form-item label="限时秒杀活动" prop="activityCourse">
+            <el-switch v-model="course.activityCourse" @change="handleChangeActivaty" />
           </el-form-item>
           <div v-show="course.activityCourse">
             <el-form-item label="活动时间" prop="discounts">
@@ -118,26 +118,27 @@
 <script lang="ts" setup>
 import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import ImgUpload from '@/views/course/components/ImgUpload.vue'
 import TextEditor from '@/components/TextEditor/textEditor.vue'
-
+import ElMessage from 'element-plus/lib/components/message/index.js'
+import { updateCourse, getCourseDet } from '@/api/course'
 const props = defineProps({
   courseId: Number
 })
 const router = useRouter()
 const currentStep = ref(0)
-const activitiyTime = ref([])
+const activitiyTime = ref<string[]>([])
 const handleTimeChange = (val: any) => {
   if (Array.isArray(val)) {
-    course.activityCourseDTO.beginTime = val[0] || ''
-    course.activityCourseDTO.endTime = val[1] || ''
+    course.value.activityCourseDTO.beginTime = val[0] || ''
+    course.value.activityCourseDTO.endTime = val[1] || ''
   } else {
-    course.activityCourseDTO.beginTime = ''
-    course.activityCourseDTO.endTime = ''
+    course.value.activityCourseDTO.beginTime = ''
+    course.value.activityCourseDTO.endTime = ''
   }
 }
-const course = reactive({
+let course = ref({
   // 基本信息
   courseName: '',
   brief: '',
@@ -167,14 +168,67 @@ const course = reactive({
   courseDescriptionMarkDown: '',
   status: 0
 })
+onMounted(() => {
+  if (props.courseId) {
+    // 编辑
+    getCourseDet(props.courseId).then((res) => {
+      console.log(res)
+      const result = res.data
+      if (result.code === '000000') {
+        course.value = result.data
+        course.value.activityCourseDTO.beginTime = result.data.activityCourseDTO.beginTime || ''
+        course.value.activityCourseDTO.endTime = result.data.activityCourseDTO.endTime || ''
+        activitiyTime.value = [
+          course.value.activityCourseDTO.beginTime,
+          course.value.activityCourseDTO.endTime
+        ]
+      }
+    })
+  } else {
+    // 添加
+    console.log('添加')
+  }
+})
 const goBack = () => {
   router.go(-1)
 }
 const handleSubmit = () => {
   console.log(course)
+  updateCourse(course)
+    .then((res) => {
+      const message = props.courseId ? '修改课程' : '添加课程'
+      const result = res.data
+      if (result.code === '000000') {
+        ElMessage.success(`${message}成功`)
+        router.push({
+          path: '/course'
+        })
+      } else {
+        ElMessage.error(`${message}失败`)
+        throw new Error(`${message}失败`)
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
-const handleChangeActivaty = (val) => {
-  console.log(val)
+const handleChangeActivaty = (val: any) => {
+  if (val && course.value.activityCourseDTO === null) {
+    course.value.activityCourseDTO = {
+      beginTime: '',
+      endTime: '',
+      amount: 0,
+      stock: ''
+    }
+  }
+  if (!val) {
+    course.value.activityCourseDTO = {
+      beginTime: '',
+      endTime: '',
+      amount: 0,
+      stock: ''
+    }
+  }
 }
 </script>
 

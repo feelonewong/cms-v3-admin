@@ -25,3 +25,21 @@ export const changeState = (courseId: number, status: number) => {
     }
   })
 }
+
+export const updateCourse = (course: object) => {
+  return request({
+    url: '/boss/course/saveOrUpdateCourse',
+    method: 'POST',
+    data: course
+  })
+}
+
+export const getCourseDet = (courseId: number | string) => {
+  return request({
+    url: '/boss/course/getCourseById',
+    method: 'GET',
+    params: {
+      courseId
+    }
+  })
+}
