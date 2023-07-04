@@ -9,7 +9,27 @@
       </template>
     </el-page-header>
     <el-card class="box-card">
-      <el-tree :data="courseAndSection" :props="defaultProps" @node-click="handleNodeClick" />
+      <el-tree :data="courseAndSection" :props="defaultProps" @node-click="handleNodeClick">
+        <template #default="{ node, data }">
+          <span class="custom-tree-node">
+            <span>{{ node.label }}</span>
+            <span class="custom-tree-node-btns" v-show="node.level === 1">
+              <el-button type="info" :icon="Edit">编辑</el-button>
+              <el-button type="primary" :icon="Plus">添加课时</el-button>
+              <el-button type="info" :icon="Refresh">{{
+                sectionStatusText[data.status]
+              }}</el-button>
+            </span>
+            <span class="custom-tree-node-btns" v-show="node.level === 2">
+              <el-button type="info" :icon="Edit">编辑</el-button>
+              <el-button type="success" :icon="UploadFilled">上传视频</el-button>
+              <el-button type="info" :icon="CirclePlusFilled">{{
+                lessonStatusText[data.status]
+              }}</el-button>
+            </span>
+          </span>
+        </template>
+      </el-tree>
     </el-card>
   </div>
 </template>
@@ -19,7 +39,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getSectionAndLesson, getCourseDet } from '@/api/course'
 import { ElMessage } from 'element-plus/lib/components/index.js'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, Edit, UploadFilled, Refresh, CirclePlusFilled } from '@element-plus/icons-vue'
 const route = useRoute()
 const router = useRouter()
 const props = defineProps({
@@ -38,6 +58,8 @@ onMounted(() => {
 const goBack = () => {
   router.go(-1)
 }
+const sectionStatusText = ['隐藏', '待更新', '已发布']
+const lessonStatusText = ['隐藏', '未发布', '已发布']
 // 课程基本信息
 const course = ref({})
 //章节课时信息
@@ -84,8 +106,16 @@ const handleNodeClick = (data: Tree) => {
 }
 
 :deep(.el-tree-node__content) {
-  padding: 15px 0;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-size: 18px;
+}
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
 }
 </style>
