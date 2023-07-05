@@ -8,10 +8,10 @@
     >
       <el-form :model="form" ref="sectionInfoForm" label-position="top">
         <el-form-item label="课程章节" :label-width="formLabelWidth" prop="courseName">
-          <el-input v-model="form.courseName" autocomplete="off" />
+          <el-input v-model="form.sectionName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="章节名称" :label-width="formLabelWidth" prop="sectionName">
-          <el-input v-model="form.sectionName" autocomplete="off" />
+          <el-input v-model="form.courseName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="章节描述" :label-width="formLabelWidth" prop="description">
           <el-input type="textarea" v-model="form.description" autocomplete="off" />
@@ -33,7 +33,8 @@
 <script lang="ts" setup>
 import { reactive, ref, nextTick } from 'vue'
 import { FormInstance } from 'element-plus/lib/components'
-
+import { getSectionInfo, saveOrUpdateSection } from '@/api/course'
+import { ElMessage } from 'element-plus/lib/components/index.js'
 const dialogVisible = ref(false)
 const msgText = ref('')
 const form = reactive({
@@ -52,7 +53,6 @@ const props = defineProps({
 const sectionInfoForm = ref<FormInstance>()
 const emit = defineEmits(['updateSuccess'])
 const initShow = (id: number, sectionForm: any) => {
-  console.log(sectionForm, '=')
   if (!id) {
     nextTick(() => {
       sectionInfoForm.value?.resetFields()
@@ -69,8 +69,21 @@ const initShow = (id: number, sectionForm: any) => {
   dialogVisible.value = true
 }
 const handleSubmit = () => {
-  emit('updateSuccess', true)
-  dialogVisible.value = false
+  saveOrUpdateSection(form)
+    .then((res) => {
+      console.log(res)
+      if (res.data.code === '000000') {
+        ElMessage.success('操作成功')
+
+        emit('updateSuccess', true)
+        dialogVisible.value = false
+      } else {
+        ElMessage.error('操作失败')
+      }
+    })
+    .catch((err) => {
+      // emit('updateSuccess', false)
+    })
 }
 defineExpose({ initShow })
 </script>
