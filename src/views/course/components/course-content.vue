@@ -17,13 +17,17 @@
               <el-button type="info" :icon="Edit" @click.stop="handleSectionEdit($event, data)"
                 >编辑</el-button
               >
-              <el-button type="primary" :icon="Plus">添加课时</el-button>
+              <el-button type="primary" :icon="Plus" @click="handleAddLesson($event, data)"
+                >添加课时</el-button
+              >
               <el-button type="info" :icon="Refresh" @click.stop="handleRefersh($event, data)">{{
                 sectionStatusText[data.status]
               }}</el-button>
             </span>
             <span class="custom-tree-node-btns" v-show="node.level === 2">
-              <el-button type="info" :icon="Edit">编辑</el-button>
+              <el-button type="info" :icon="Edit" @click="handleEditLesson($event, data)"
+                >编辑</el-button
+              >
               <el-button type="success" :icon="UploadFilled">上传视频</el-button>
               <el-button type="info" :icon="CirclePlusFilled">{{
                 lessonStatusText[data.status]
@@ -36,6 +40,7 @@
 
     <update-section ref="updateSectionRef" @updateSuccess="handleUpdateSuccess"></update-section>
     <status-change ref="statusChangeRef" @updateSuccess="handleUpdateSuccess"></status-change>
+    <lesson-update ref="lessonUpdateRef"></lesson-update>
   </div>
 </template>
 
@@ -47,6 +52,7 @@ import { ElMessage } from 'element-plus/lib/components/index.js'
 import { Plus, Edit, UploadFilled, Refresh, CirclePlusFilled } from '@element-plus/icons-vue'
 import UpdateSection from '@/views/course/components/update-section.vue'
 import StatusChange from '@/views/course/components/statusChange.vue'
+import LessonUpdate from '@/views/course/components/lesson-update.vue'
 const route = useRoute()
 const router = useRouter()
 const props = defineProps({
@@ -104,6 +110,13 @@ const handleNodeClick = (data: Tree) => {
 }
 const updateSectionRef = ref<InstanceType<typeof UpdateSection>>()
 const statusChangeRef = ref<InstanceType<typeof StatusChange>>()
+const lessonUpdateRef = ref<InstanceType<typeof LessonUpdate>>()
+const handleAddLesson = (row: any, data: any) => {
+  lessonUpdateRef.value?.initDialog(0, {})
+}
+const handleEditLesson = (row: any, data: any) => {
+  lessonUpdateRef.value?.initDialog(data.id, data)
+}
 const handleAddSection = () => {
   updateSectionRef.value?.initShow(0, {})
 }
