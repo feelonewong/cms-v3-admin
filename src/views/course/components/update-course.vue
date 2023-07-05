@@ -123,6 +123,8 @@ import ImgUpload from '@/views/course/components/ImgUpload.vue'
 import TextEditor from '@/components/TextEditor/textEditor.vue'
 import ElMessage from 'element-plus/lib/components/message/index.js'
 import { updateCourse, getCourseDet } from '@/api/course'
+import UpdateSection from '@/views/course/components/update-section.vue'
+
 const props = defineProps({
   courseId: Number
 })

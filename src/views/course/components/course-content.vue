@@ -5,7 +5,7 @@
         <span class="text-large font-600 mr-3">{{ route.query.courseName }}</span>
       </template>
       <template #extra>
-        <el-button type="primary" :icon="Plus"> 添加章节</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAddSection"> 添加章节</el-button>
       </template>
     </el-page-header>
     <el-card class="box-card">
@@ -14,7 +14,9 @@
           <span class="custom-tree-node">
             <span>{{ node.label }}</span>
             <span class="custom-tree-node-btns" v-show="node.level === 1">
-              <el-button type="info" :icon="Edit">编辑</el-button>
+              <el-button type="info" :icon="Edit" @click.stop="handleSectionEdit($event, data)"
+                >编辑</el-button
+              >
               <el-button type="primary" :icon="Plus">添加课时</el-button>
               <el-button type="info" :icon="Refresh">{{
                 sectionStatusText[data.status]
@@ -31,6 +33,8 @@
         </template>
       </el-tree>
     </el-card>
+
+    <update-section ref="updateSectionRef" @updateSuccess="handleUpdateSuccess"></update-section>
   </div>
 </template>
 
@@ -40,6 +44,7 @@ import { onMounted, ref } from 'vue'
 import { getSectionAndLesson, getCourseDet } from '@/api/course'
 import { ElMessage } from 'element-plus/lib/components/index.js'
 import { Plus, Edit, UploadFilled, Refresh, CirclePlusFilled } from '@element-plus/icons-vue'
+import UpdateSection from '@/views/course/components/update-section.vue'
 const route = useRoute()
 const router = useRouter()
 const props = defineProps({
@@ -68,12 +73,12 @@ const defaultProps = {
   label: (data: string | any) => data.sectionName || data.theme
 }
 const courseAndSection = ref<Tree[]>([])
+
 const getCourse = () => {
   getCourseDet({ courseId: props.courseId }).then((res) => {
     const result = res.data
     if (result.code === '000000') {
       course.value = result.data
-      console.log(course.value)
     } else {
       ElMessage.error('获取课程详情失败' + result.mesg)
       new Error('获取课程详情失败' + result.mesg)
@@ -85,7 +90,6 @@ const getSectionAndLessonList = () => {
     const result = res.data
     if (result.code === '000000') {
       courseAndSection.value = result.data
-      console.log(courseAndSection.value)
     } else {
       ElMessage.error('获取课程详情失败' + result.mesg)
       new Error('获取课程详情失败' + result.mesg)
@@ -94,7 +98,20 @@ const getSectionAndLessonList = () => {
 }
 
 const handleNodeClick = (data: Tree) => {
-  console.log(data)
+  // console.log(data)
+}
+const updateSectionRef = ref<InstanceType<typeof UpdateSection>>()
+
+const handleAddSection = () => {
+  updateSectionRef.value?.initShow(0, {})
+}
+const handleSectionEdit = (row: any, data: any) => {
+  updateSectionRef.value?.initShow(data.id, data)
+}
+const handleUpdateSuccess = (flag: boolean) => {
+  if (flag) {
+    getSectionAndLessonList()
+  }
 }
 </script>
 
