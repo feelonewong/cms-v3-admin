@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="goBack">
+    <el-page-header @back="goBack" style="padding-right: 20px">
       <template #content>
         <span class="text-large font-600 mr-3">{{ route.query.courseName }}</span>
       </template>
@@ -18,7 +18,7 @@
                 >编辑</el-button
               >
               <el-button type="primary" :icon="Plus">添加课时</el-button>
-              <el-button type="info" :icon="Refresh">{{
+              <el-button type="info" :icon="Refresh" @click.stop="handleRefersh($event, data)">{{
                 sectionStatusText[data.status]
               }}</el-button>
             </span>
@@ -35,6 +35,7 @@
     </el-card>
 
     <update-section ref="updateSectionRef" @updateSuccess="handleUpdateSuccess"></update-section>
+    <status-change ref="statusChangeRef" @updateSuccess="handleUpdateSuccess"></status-change>
   </div>
 </template>
 
@@ -45,6 +46,7 @@ import { getSectionAndLesson, getCourseDet } from '@/api/course'
 import { ElMessage } from 'element-plus/lib/components/index.js'
 import { Plus, Edit, UploadFilled, Refresh, CirclePlusFilled } from '@element-plus/icons-vue'
 import UpdateSection from '@/views/course/components/update-section.vue'
+import StatusChange from '@/views/course/components/statusChange.vue'
 const route = useRoute()
 const router = useRouter()
 const props = defineProps({
@@ -101,9 +103,12 @@ const handleNodeClick = (data: Tree) => {
   // console.log(data)
 }
 const updateSectionRef = ref<InstanceType<typeof UpdateSection>>()
-
+const statusChangeRef = ref<InstanceType<typeof StatusChange>>()
 const handleAddSection = () => {
   updateSectionRef.value?.initShow(0, {})
+}
+const handleRefersh = (row: any, data: any) => {
+  statusChangeRef.value?.initDialog(data.id, data)
 }
 const handleSectionEdit = (row: any, data: any) => {
   updateSectionRef.value?.initShow(data.id, data)
