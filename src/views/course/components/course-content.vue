@@ -31,7 +31,12 @@
               <el-button type="info" :icon="Edit" @click="handleEditLesson(node, $event, data)"
                 >编辑</el-button
               >
-              <el-button type="success" :icon="UploadFilled">上传视频</el-button>
+              <el-button
+                type="success"
+                :icon="UploadFilled"
+                @click.stop="handleUploadVideo(node, data)"
+                >上传视频</el-button
+              >
               <el-button type="info" :icon="CirclePlusFilled">{{
                 lessonStatusText[data.status]
               }}</el-button>
@@ -44,6 +49,7 @@
     <update-section ref="updateSectionRef" @updateSuccess="handleUpdateSuccess"></update-section>
     <status-change ref="statusChangeRef" @updateSuccess="handleUpdateSuccess"></status-change>
     <lesson-update ref="lessonUpdateRef"></lesson-update>
+    <upload-video ref="uploadVideoRef"></upload-video>
   </div>
 </template>
 
@@ -56,6 +62,7 @@ import { Plus, Edit, UploadFilled, Refresh, CirclePlusFilled } from '@element-pl
 import UpdateSection from '@/views/course/components/update-section.vue'
 import StatusChange from '@/views/course/components/statusChange.vue'
 import LessonUpdate from '@/views/course/components/lesson-update.vue'
+import UploadVideo from '@/views/course/components/upload-video.vue'
 const route = useRoute()
 const router = useRouter()
 const props = defineProps({
@@ -114,6 +121,11 @@ const handleNodeClick = (data: Tree) => {
 const updateSectionRef = ref<InstanceType<typeof UpdateSection>>()
 const statusChangeRef = ref<InstanceType<typeof StatusChange>>()
 const lessonUpdateRef = ref<InstanceType<typeof LessonUpdate>>()
+const uploadVideoRef = ref<InstanceType<typeof UploadVideo>>()
+const handleUploadVideo = (node: any, data: any) => {
+  console.log(1)
+  uploadVideoRef.value?.initDialog(node, data)
+}
 const handleAddLesson = (node: any, row: any, data: any) => {
   lessonUpdateRef.value?.initDialog(node, 0, {})
 }
