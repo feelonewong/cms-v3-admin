@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, nextTick } from 'vue'
+import { reactive, ref, nextTick, onMounted } from 'vue'
 import type { FormInstance } from 'element-plus/lib/components/index.js'
 import { ElMessage } from 'element-plus/lib/components/index.js'
 import { saveOrUpdateSection } from '@/api/course'
@@ -54,6 +54,39 @@ const handleSubmit = () => {}
 defineExpose({
   initDialog
 })
+
+onMounted(() => {
+  console.log(initUpload())
+})
+const initUpload = () => {
+  return new AliyunUpload.Vod({
+    //userID，必填，您可以使用阿里云账号访问账号中心（https://account.console.aliyun.com/），即可查看账号ID
+    userId: '122',
+    //上传到视频点播的地域，默认值为'cn-shanghai'，
+    //eu-central-1，ap-southeast-1
+    region: '',
+    //分片大小默认1 MB，不能小于100 KB（100*1024）
+    partSize: 1048576,
+    //并行上传分片个数，默认5
+    parallel: 5,
+    //网络原因失败时，重新上传次数，默认为3
+    retryCount: 3,
+    //网络原因失败时，重新上传间隔时间，默认为2秒
+    retryDuration: 2,
+    //开始上传
+    onUploadstarted: function (uploadInfo) {},
+    //文件上传成功
+    onUploadSucceed: function (uploadInfo) {},
+    //文件上传失败
+    onUploadFailed: function (uploadInfo, code, message) {},
+    //文件上传进度，单位：字节
+    onUploadProgress: function (uploadInfo, totalSize, loadedPercent) {},
+    //上传凭证或STS token超时
+    onUploadTokenExpired: function (uploadInfo) {},
+    //全部文件上传结束
+    onUploadEnd: function (uploadInfo) {}
+  })
+}
 </script>
 
 <style lang="scss" scoped>
