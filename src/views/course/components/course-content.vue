@@ -17,7 +17,10 @@
               <el-button type="info" :icon="Edit" @click.stop="handleSectionEdit($event, data)"
                 >编辑</el-button
               >
-              <el-button type="primary" :icon="Plus" @click="handleAddLesson($event, data)"
+              <el-button
+                type="primary"
+                :icon="Plus"
+                @click.stop="handleAddLesson(node, $event, data)"
                 >添加课时</el-button
               >
               <el-button type="info" :icon="Refresh" @click.stop="handleRefersh($event, data)">{{
@@ -25,7 +28,7 @@
               }}</el-button>
             </span>
             <span class="custom-tree-node-btns" v-show="node.level === 2">
-              <el-button type="info" :icon="Edit" @click="handleEditLesson($event, data)"
+              <el-button type="info" :icon="Edit" @click="handleEditLesson(node, $event, data)"
                 >编辑</el-button
               >
               <el-button type="success" :icon="UploadFilled">上传视频</el-button>
@@ -111,11 +114,11 @@ const handleNodeClick = (data: Tree) => {
 const updateSectionRef = ref<InstanceType<typeof UpdateSection>>()
 const statusChangeRef = ref<InstanceType<typeof StatusChange>>()
 const lessonUpdateRef = ref<InstanceType<typeof LessonUpdate>>()
-const handleAddLesson = (row: any, data: any) => {
-  lessonUpdateRef.value?.initDialog(0, {})
+const handleAddLesson = (node: any, row: any, data: any) => {
+  lessonUpdateRef.value?.initDialog(node, 0, {})
 }
-const handleEditLesson = (row: any, data: any) => {
-  lessonUpdateRef.value?.initDialog(data.id, data)
+const handleEditLesson = (node: any, row: any, data: any) => {
+  lessonUpdateRef.value?.initDialog(node, data.id, data)
 }
 const handleAddSection = () => {
   updateSectionRef.value?.initShow(0, {})
